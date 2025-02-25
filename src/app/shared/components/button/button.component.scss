@@ -19,3 +19,16 @@
         padding: 13px;
     }
 }
+
+.app-button:hover {
+    background: #016486;
+}
+
+.app-button:focus {
+    outline: none;
+    background: #005f7b;
+}
+
+.app-button:active {
+    background: #005f7b;
+}
