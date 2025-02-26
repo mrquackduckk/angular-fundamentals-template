@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder, FormControl, FormGroup,
+  ValidationErrors,
   Validators
 } from '@angular/forms';
 import { validateAuthor } from '@app/shared/validators/validateAuthor';
@@ -24,11 +26,22 @@ export class CourseFormComponent implements OnInit {
   ngOnInit(): void {
     this.courseForm = new FormGroup({
       title: new FormControl('', [Validators.required, Validators.minLength(2)]),
-      description: new FormControl([], [Validators.required, Validators.minLength(2)]),
-      author: new FormControl('', [Validators.required, Validators.minLength(0), validateAuthor()]),
+      description: new FormControl([], [Validators.required, this.validateDescription()]),
+      author: new FormControl('', [Validators.minLength(2), validateAuthor()]),
       authors: new FormControl([], [Validators.required]),
       duration: new FormControl(0, [Validators.required, Validators.min(0)]),
     })
+  }
+
+  // Custom validator for description based on title length
+  validateDescription(): (control: AbstractControl) => ValidationErrors | null {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const title = this.courseForm.get('title')?.value;
+      if (title && title.length < 2) {
+        return { invalidDescription: 'Description is invalid when title is less than 2 characters.' };
+      }
+      return null; // Valid if title length is 2 or more
+    };
   }
 
   addNewAuthor(): void {

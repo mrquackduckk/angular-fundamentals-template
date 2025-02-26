@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { EmailValidatorDirective } from '@app/shared/directives/email.directive';
 
 @Component({
@@ -14,9 +14,17 @@ export class RegistrationFormComponent implements OnInit {
   ngOnInit(): void {
    this.registrationForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    email: new FormControl('', [Validators.required, new EmailValidatorDirective().validate]),
+    email: new FormControl('', [Validators.required, this.validateEmail]),
     password: new FormControl('', [Validators.required]),
    });
+  }
+
+  validateEmail(control: AbstractControl): ValidationErrors | null {
+      const value = control.value;
+      if (!value) return null;
+
+      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return pattern.test(value) ? null : { invalidEmail: true };
   }
 
   onSubmit() {
