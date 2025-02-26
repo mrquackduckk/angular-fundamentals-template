@@ -3,6 +3,7 @@ import {
   FormBuilder, FormControl, FormGroup,
   Validators
 } from '@angular/forms';
+import { validateAuthor } from '@app/shared/validators/validateAuthor';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
@@ -22,11 +23,11 @@ export class CourseFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.courseForm = new FormGroup({
-      title: new FormControl('', [Validators.required]),
-      description: new FormControl([], [Validators.required]),
-      author: new FormControl('', [Validators.required]),
+      title: new FormControl('', [Validators.required, Validators.minLength(2)]),
+      description: new FormControl([], [Validators.required, Validators.minLength(2)]),
+      author: new FormControl('', [Validators.required, Validators.minLength(0), validateAuthor()]),
       authors: new FormControl([], [Validators.required]),
-      duration: new FormControl(0, [Validators.required]),
+      duration: new FormControl(0, [Validators.required, Validators.min(0)]),
     })
   }
 

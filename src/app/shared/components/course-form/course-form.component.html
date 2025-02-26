@@ -29,7 +29,7 @@
         <div class="course__flex">
           <!--Use the name `author` for the form control.-->
           <input [(ngModel)]="newAuthorInput" formControlName="author" type="text" id="author" placeholder="Input Author Name"/>
-          <app-button (click)="addNewAuthor()" id="createAuthor">Create author</app-button>
+          <app-button (click)="addNewAuthor()" id="createAuthor">Add author</app-button>
         </div>
         <span id="authorErrorMessage">New author should contain only latin letters and numbers.</span>
         <div class="course__authors">

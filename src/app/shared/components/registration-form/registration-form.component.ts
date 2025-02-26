@@ -13,7 +13,7 @@ export class RegistrationFormComponent implements OnInit {
 
   ngOnInit(): void {
    this.registrationForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required, Validators.minLength(6)]),
     email: new FormControl('', [Validators.required, new EmailValidatorDirective().validate]),
     password: new FormControl('', [Validators.required]),
    });
