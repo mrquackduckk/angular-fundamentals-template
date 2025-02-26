@@ -8,10 +8,9 @@ import { NotAuthorizedGuard } from '@app/auth/guards/not-authorized.guard';
 import { AuthorizedGuard } from '@app/auth/guards/authorized.guard';
 import { CoursesStoreService } from '@app/services/courses-store.service';
 import { CoursesService } from '@app/services/courses.service';
-import { FormComponent } from './shared/components/form/form.component';
 
 @NgModule({
-  declarations: [AppComponent, CourseInfoComponent, FormComponent],
+  declarations: [AppComponent, CourseInfoComponent],
   imports: [
     BrowserModule,
     SharedModule,

@@ -28,7 +28,7 @@
       <div class="form__control">
         <div class="course__flex">
           <!--Use the name `author` for the form control.-->
-          <input [(ngModel)]="newAuthorInput" formControlName="author" type="text" id="author" placeholder="Input Author Name"/>
+          <input [(ngModel)]="author" formControlName="author" type="text" id="author" placeholder="Input Author Name"/>
           <app-button (click)="addNewAuthor()" id="createAuthor">Add author</app-button>
         </div>
         <span id="authorErrorMessage">New author should contain only latin letters and numbers.</span>
@@ -36,7 +36,7 @@
           <!--Use the name `authors` for the form array.-->
           <div *ngFor="let author of getAuthors(); let i = index" class="course__author">
             <span>{{ author }}</span>
-            <app-button (click)="removeAuthor(author)" id="removeAuthor">Remove</app-button>
+            <app-button (click)="removeAuthor(i)" id="removeAuthor">Remove</app-button>
           </div>
         </div>
       </div>
