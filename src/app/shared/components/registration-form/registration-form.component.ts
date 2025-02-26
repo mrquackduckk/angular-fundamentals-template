@@ -14,17 +14,9 @@ export class RegistrationFormComponent implements OnInit {
   ngOnInit(): void {
    this.registrationForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    email: new FormControl('', [Validators.required, this.validateEmail]),
+    email: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
    });
-  }
-
-  validateEmail(control: AbstractControl): ValidationErrors | null {
-      const value = control.value;
-      if (!value) return null;
-
-      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return pattern.test(value) ? null : { invalidEmail: true };
   }
 
   onSubmit() {

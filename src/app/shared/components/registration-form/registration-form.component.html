@@ -11,7 +11,7 @@
       <div class="form__control">
         <!--Use the name `email` for the form control.-->
         <label for="email">Email</label>
-        <input formControlName="email" name="email" type="text" id="email" placeholder="Input text"/>
+        <input emailValidator formControlName="email" name="email" type="text" id="email" placeholder="Input text"/>
         <span *ngIf="registrationForm.get('email')?.errors" id="emailErrorMessage" class="text-danger">Email is required.</span>
       </div>
       <div class="form__control">

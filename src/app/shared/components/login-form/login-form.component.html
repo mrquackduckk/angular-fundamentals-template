@@ -7,7 +7,7 @@
           <label for="email">Email</label>
           <!--Use the name `email` for the form control.-->
           <input #emailRef="ngModel" emailValidator required name="email" [(ngModel)]="email" type="text" id="email" placeholder="Input text"/>
-          <span *ngIf="emailRef.invalid && loginForm.touched" id="emailErrorMessage" class="text-danger">Email is required.</span>
+          <span *ngIf="emailRef.invalid" id="emailErrorMessage" class="text-danger">Email is required.</span>
         </div>
         <div class="form__control">
           <label for="password">Password</label>
