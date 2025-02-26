@@ -10,19 +10,17 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./course-form.component.scss'],
 })
 export class CourseFormComponent {
-  courseForm!: FormGroup;
+  courseForm: FormGroup;
   author = '';
 
-  constructor(private fb: FormBuilder, library: FaIconLibrary) {
+  constructor(public fb: FormBuilder, public library: FaIconLibrary) {
     library.addIconPacks(fas);
-  }
 
-  ngOnInit() {
     this.courseForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(2)]],
       description: ['', [Validators.required, Validators.minLength(2)]],
-      author: ['', [validateAuthor()]],  // Remove Validators.required
-      authors: this.fb.array([]),
+      author: ['', [Validators.required, validateAuthor()]],
+      authors: this.fb.array([], [Validators.required]), // FormArray for authors
       duration: [0, [Validators.required, Validators.min(0)]],
     });
   }
