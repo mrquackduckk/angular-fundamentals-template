@@ -1,68 +1,68 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormArray,
-  FormGroup,
+  AbstractControl,
+  FormBuilder, FormControl, FormGroup,
+  ValidationErrors,
   Validators
 } from '@angular/forms';
 import { validateAuthor } from '@app/shared/validators/validateAuthor';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-course-form',
   templateUrl: './course-form.component.html',
   styleUrls: ['./course-form.component.scss'],
 })
-export class CourseFormComponent implements OnInit {
-  courseForm!: FormGroup;
-  availableAuthors: string[] = ['Author 1', 'Author 2', 'Author 3']; // Example authors
+export class CourseFormComponent {
+  constructor(public fb: FormBuilder, public library: FaIconLibrary) {
+    library.addIconPacks(fas);
+    this.buildForm();
+  }
 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
+  buildForm(): void {
     this.courseForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(2)]],
-      description: ['', [Validators.required, Validators.minLength(2)]],
+      description: [[], [Validators.required, this.validateDescription()]],
+      author: ['', [Validators.minLength(2), validateAuthor()]],
+      authors: [[], [Validators.required]],
       duration: [0, [Validators.required, Validators.min(0)]],
-      authors: this.fb.array([], Validators.required),
-      newAuthor: this.fb.group({
-        authorName: ['', [Validators.minLength(2), validateAuthor()]]
-      })
-    });
+    })
   }
 
-  get authors() {
-    return this.courseForm.get('authors') as FormArray;
+  newAuthorInput = '';
+
+  courseForm!: FormGroup;
+
+  // Custom validator for description based on title length
+  validateDescription(): (control: AbstractControl) => ValidationErrors | null {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const title = this.courseForm.get('title')?.value;
+      if (title && title.length < 2) {
+        return { invalidDescription: 'Description is invalid when title is less than 2 characters.' };
+      }
+      return null; // Valid if title length is 2 or more
+    };
   }
 
-  get newAuthorName() {
-    return this.courseForm.get('newAuthor.authorName');
+  addNewAuthor(): void {
+    if (!this.newAuthorInput) return;
+
+    const authors = this.courseForm.get('authors')?.value;
+    authors.push(this.newAuthorInput);
+    this.courseForm.get('authors')?.setValue(authors);
+
+    this.newAuthorInput = '';
   }
 
-  addAuthor(author: string) {
-    const index = this.availableAuthors.indexOf(author);
-    if (index !== -1) {
-      this.availableAuthors.splice(index, 1);
-      this.authors.push(this.fb.control(author));
-    }
+  removeAuthor(author: string): void {
+    const authors = this.courseForm.get('authors')?.value;
+    const index = authors.indexOf(author);
+    authors.splice(index, 1);
+    this.courseForm.get('authors')?.setValue(authors);
   }
 
-  removeAuthor(index: number) {
-    const author = this.authors.at(index).value;
-    this.availableAuthors.push(author);
-    this.authors.removeAt(index);
-  }
-
-  createAuthor() {
-    const newAuthorName = this.newAuthorName?.value;
-    if (newAuthorName && newAuthorName.length >= 2) {
-      this.availableAuthors.push(newAuthorName);
-      this.newAuthorName?.setValue('');
-    }
-  }
-
-  onSubmit() {
-    if (this.courseForm.valid) {
-      console.log(this.courseForm.value);
-    }
+  getAuthors(): string[] {
+    return this.courseForm.get('authors')?.value;
   }
 }
