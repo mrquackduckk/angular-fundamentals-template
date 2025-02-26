@@ -1,27 +1,27 @@
 <h2 class="text-align-center">Login</h2>
 <div class="app-plate">
-  <form #loginForm="ngForm">
+  <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
     <div class="login-form">
       <div>
         <div class="form__control">
           <label for="email">Email</label>
           <!--Use the name `email` for the form control.-->
-          <input type="text" id="email" placeholder="Input text"/>
-          <span id="emailErrorMessage" class="text-danger">Email is required.</span>
+          <input #emailRef="ngModel" emailValidator required name="email" [(ngModel)]="email" type="text" id="email" placeholder="Input text"/>
+          <span *ngIf="emailRef.invalid && loginForm.touched" id="emailErrorMessage" class="text-danger">Email is required.</span>
         </div>
         <div class="form__control">
           <label for="password">Password</label>
           <!--Use the name `password` for the form control.-->
-          <input type="password" id="password" placeholder="Input text"/>
-          <span id="passwordErrorMessage" class="text-danger">Password is required.</span>
+          <input required #passwordRef="ngModel" name="password" [(ngModel)]="password" type="password" id="password" placeholder="Input text"/>
+          <span *ngIf="passwordRef.invalid && passwordRef.touched" id="passwordErrorMessage" class="text-danger">Password is required.</span>
         </div>
       </div>
       <div>
         <div class="form__action">
-          <app-button></app-button>
+          <app-button (click)="onSubmit(loginForm)">Login</app-button>
         </div>
         <div class="form__text">
-          If you don't have an account you may <strong>Registration</strong>
+          If you don't have an account you may <strong>Register</strong>
         </div>
       </div>
     </div>

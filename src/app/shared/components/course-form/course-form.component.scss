@@ -35,3 +35,17 @@
     cursor: pointer;
   }
 }
+
+form {
+  .form__action {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+
+    app-button {
+      width: 185px;
+      text-wrap: none;
+      white-space: nowrap;
+    }
+  }
+}

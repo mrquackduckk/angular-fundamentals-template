@@ -7,3 +7,11 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
+input {
+  border: 1px solid #ccc;
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
